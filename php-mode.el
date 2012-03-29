@@ -1,8 +1,9 @@
 ;;; php-mode.el --- major mode for editing PHP code
 
-;; Copyright (C) 1999, 2000, 2001, 2003, 2004 Turadg Aleahmad
-;;               2008 Aaron S. Hawley
-;;               2011 Eric James Michael Ritz
+;; Copyright (c) 1999, 2000, 2001, 2003, 2004 Turadg Aleahmad
+;; Copyright (c) 2008 Aaron S. Hawley
+;; Copyright (c) 2011 Eric James Michael Ritz
+;; Copyright (c) 2012 Michele Bini
 
 ;; Maintainer: Eric James Michael Ritz <Ren at lifesnotsimple dot com>
 ;; Original Author: Turadg Aleahmad, 1999-2004
@@ -10,10 +11,10 @@
 ;; Created: 1999-05-17
 ;; X-URL:   https://github.com/ejmr/php-mode
 
-(defconst php-mode-version-number "1.6.4"
+(defconst php-mode-version-number "1.6.4-mb10"
   "PHP Mode version number.")
 
-(defconst php-mode-modified "2011-09-25"
+(defconst php-mode-modified "2012-03-29"
   "PHP Mode build date.")
 
 ;;; License
