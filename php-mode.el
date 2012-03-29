@@ -1031,6 +1031,8 @@ searching the PHP website."
 ;; Set up font locking
 (defconst php-font-lock-keywords-1
   (list
+   '("\\(\"\\(\\\\.\\|[^\"\\]\\)*\"\\|'\\(\\\\.\\|[^'\\]\\)*'\\)"
+     . font-lock-string-face)
    ;; Fontify constants
    (list
     (concat "[^_$]?\\<\\(" php-constants "\\)\\>[^_]?")
@@ -1059,9 +1061,6 @@ searching the PHP website."
    ;; Fontify ASP-style tag
    '("<\\%\\(=\\)?" . font-lock-preprocessor-face)
    '("\\%>" . font-lock-preprocessor-face)
-
-   '("\\(\"\\(\\\\.\\|[^\"\\]\\)*\"\\|'\\(\\\\.\\|[^'\\]\\)*'\\)"
-     . font-lock-string-face)
    )
   "Subdued level highlighting for PHP mode.")
 
