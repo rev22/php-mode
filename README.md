@@ -3,10 +3,9 @@
 This updates `php-mode` with features to make it more friendly to use with PHP 5.4.  It is based on the work of:
 
 1. Turadg Aleahmad
-
 2. Aaron S. Hawley
-
 3. Lennart Borgman
+4. Michele Bini
 
 And all those mentioned in the ‘Contributors’ section below.
 
