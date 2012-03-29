@@ -72,7 +72,6 @@
 (require 'etags)
 (eval-when-compile
   (require 'regexp-opt))
-(require 'flymake)
 
 ;; Local variables
 ;;;###autoload
@@ -1181,24 +1180,24 @@ searching the PHP website."
 
 ;;; Provide support for Flymake so that users can see warnings and
 ;;; errors in real-time as they write code.
-
-(defun flymake-php-init ()
-  (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                     'flymake-create-temp-inplace))
-         (local-file (file-relative-name
-                      temp-file
-                      (file-name-directory buffer-file-name))))
-    (list php-executable (list "-f" local-file "-l"))))
-
-(add-to-list 'flymake-allowed-file-name-masks
-             '("\\.php[345s]?$"
-               flymake-php-init
-               flymake-simple-cleanup
-               flymake-get-real-file-name))
-
-(add-to-list 'flymake-err-line-patterns
-             '("\\(Parse\\|Fatal\\) error: \\(.*?\\) in \\(.*?\\) on line \\([0-9]+\\)" 3 4 nil 2))
-
+(eval-after-load 'flymake
+  '(progn
+     (defun flymake-php-init ()
+       (let* ((temp-file (flymake-init-create-temp-buffer-copy
+			  'flymake-create-temp-inplace))
+	      (local-file (file-relative-name
+			   temp-file
+			   (file-name-directory buffer-file-name))))
+	 (list php-executable (list "-f" local-file "-l"))))
+     
+     (add-to-list 'flymake-allowed-file-name-masks
+		  '("\\.php[345s]?$"
+		    flymake-php-init
+		    flymake-simple-cleanup
+		    flymake-get-real-file-name))
+     
+     (add-to-list 'flymake-err-line-patterns
+		  '("\\(Parse\\|Fatal\\) error: \\(.*?\\) in \\(.*?\\) on line \\([0-9]+\\)" 3 4 nil 2))))
 
 (provide 'php-mode)
 
