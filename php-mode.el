@@ -95,6 +95,18 @@
   :type 'face
   :group 'php)
 
+(defface php-other-word-face
+  '(;;(((class color) (background light)) (:foreground "azure" :weight bold))
+    ;;(((class color) (background dark))  (:foreground "aquamarine" :weight bold))
+    (t (:weight bold :inherit font-lock-string-face)))
+  "Face for non-code words in `php-mode' buffers."
+  :group 'php)
+
+(defcustom php-other-word-face 'php-other-word-face
+  "Face for non-code words in `php-mode' buffers.
+
+This face is only used for the maximum fontification level")
+
 (defcustom php-speedbar-config t
   "When set to true automatically configures Speedbar to observe PHP files.
 Ignores php-file patterns option; fixed to expression \"\\.\\(inc\\|php[s345]?\\)\""
@@ -1172,7 +1184,7 @@ searching the PHP website."
     '("\\<[0-9]+" . php-default-face)
 
     ;; Warn on any words not already fontified
-    '("\\<\\sw+\\>" . font-lock-warning-face)))
+    '("\\<\\sw+\\>" . php-other-words-face)))
 
   "Gauchy level highlighting for PHP mode.")
 
