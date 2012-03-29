@@ -1,0 +1,16 @@
+Source: php-elisp
+Section: lisp
+Priority: optional
+Maintainer: Thierry Randrianiriana <thierry@debian.org>
+Build-Depends: debhelper (>= 7), texi2html
+Standards-Version: 3.8.4
+Homepage: http://php-mode.sourceforge.net/
+
+Package: php-elisp
+Architecture: all
+Depends: emacs23 | emacs22 | emacsen, ${misc:Depends}
+Suggests: php5, php5-cli
+Recommends: speedbar
+Description: Emacs support for php files
+ Emacs major mode for php supporting syntax highlighting, indentation
+ and good integration with html-statements.

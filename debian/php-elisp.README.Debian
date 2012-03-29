@@ -1,0 +1,19 @@
+This package auto-loads php-mode and invokes it for all .php[34], .phtml 
+and .inc files.
+
+You can invoke it manually by typing 
+  M-X php-mode
+in emacs or XEmacs.
+
+If you want to associate php-mode with another extension. Add the following
+to your .emacs file:
+
+(setq auto-mode-alist
+     (cons '("\\.ext\\'" . php-mode) auto-mode-alist))
+
+where .ext is the extension on your files.
+
+For more information about php-mode and how-to make it compatible with 
+html-mode, see http://php-mode.sf.net
+
+// Pontus

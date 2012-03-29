@@ -1,0 +1,135 @@
+php-elisp (1.5.0-1mb3) unstable; urgency=low
+
+  * Added php-other-word-face.
+
+ -- Michele Bini <michele.bini@gmail.com>  Thu, 29 Mar 2012 10:54:07 +0200
+
+php-elisp (1.5.0-1mb2) unstable; urgency=low
+
+  * Fix for XEmacs.
+  * Do not alter global variable font-lock-maximum-decoration.
+
+ -- Michele Bini <michele.bini@gmail.com>  Wed, 28 Mar 2012 22:32:53 +0200
+
+php-elisp (1.5.0-1) unstable; urgency=low
+
+  * New upstream release (Closes: #368061, #291207)
+  * New maintainer (Closes: #525947)
+  * debian/control:
+    + bumped Standards-Version to 3.8.4
+    + added ${misc:Depends} in Depends
+    + updated Depends to emacs23 | emacs22 | emacsen
+    + updated Suggests to php5 | php5-cli
+    + updated Section to lisp
+    + added in Recommends field speedbar (Closes: #500120)
+    + used debhelper 7
+    + added Homepage field
+    + added texi2html in Build-Depends to generate manual (Closes: #476197)
+  * debian/rules:
+    + removed emacs21 references (Closes: #269650)
+    + used binary-indep instead of binary-arch target
+  * debian/copyright
+    + added copyright notice
+  * Added compat, docs, watch files
+  * switched to dpkg-source 3.0 (quilt) format
+
+ -- Thierry Randrianiriana <thierry@debian.org>  Sun, 09 May 2010 09:00:55 +0300
+
+php-elisp (1.4.0-3) unstable; urgency=low
+
+  * Package officially orphaned and maintainer address set to the Debian
+    QA Group.
+
+ -- Ola Lundqvist <opal@debian.org>  Tue, 28 Apr 2009 07:01:06 +0200
+
+php-elisp (1.4.0-2) unstable; urgency=low
+
+  * Applied patch from Neil Moore <neil@s-z.org> to correct xemacs
+    problem, closes: #477132.
+
+ -- Ola Lundqvist <opal@debian.org>  Sun, 27 Apr 2008 18:32:11 +0200
+
+php-elisp (1.4.0-1) unstable; urgency=low
+
+  * New upstream release.
+  * This version have a copy of the 1.2.0 version with support for emacs21
+    included as well.
+  * Applied patch with various fixes for the 1.2.0 version, closes: #342632.
+    Thanks to Thue Janus Kristensen <thuejk@gmail.com> for the good patch.
+    Due to new upstream release two chunks had to be applied manually.
+  * Making Ola maintainer and Pontus co-maintainer.
+  * Debhelper compatibility version 4 support.
+  * Updated to 3.7.2 version of the debian standards version.
+    This include removing the old conffiles file in debian dir.
+  * Build depends on debhelper.
+  * Updated to new version of FSF address in copyright file.  
+
+ -- Ola Lundqvist <opal@debian.org>  Sun, 20 Apr 2008 14:45:09 +0200
+
+php-elisp (1.1.0-2) unstable; urgency=low
+
+  * Fixed newline. Patch supplied by Roland Rosenfeld, closes: #242183
+
+ -- Pontus Ullgren <pontus@ullgren.com>  Tue, 13 Apr 2004 22:51:34 +0200
+
+php-elisp (1.1.0-1) unstable; urgency=low
+
+  * New upstream release closes: #233858
+  * Added a small README.debian file. closes: #158748
+  * Removed dependancy to emacs20. closes: #232779
+
+ -- Pontus Ullgren <pontus@ullgren.com>  Fri,  6 Feb 2004 03:40:55 +0100
+
+php-elisp (1.0.5-1) unstable; urgency=low
+
+  * New upstream release. closes: #225774
+
+ -- Pontus Ullgren <pontus@ullgren.com>  Fri, 09 Jan 2004 19:08:06 +0100
+
+php-elisp (1.0.4-2) unstable; urgency=low
+
+  * Fixed "Highlighting warning on superglobals". closes: #206261, #206108
+
+ -- Pontus Ullgren <pontus@ullgren.com>  Wed, 20 Aug 2003 00:42:54 +0200
+
+php-elisp (1.0.4-1) unstable; urgency=low
+
+  * New maintainer.
+  * New upstream release, closes: #186713, #171317
+  * Updated information about upstream author in copyright.
+  * Changed dependency from xemacs2 to xemacs21.
+  * Standards-Version from 3.5.2 to 3.6.0.
+
+ -- Pontus Ullgren <pontus@ullgren.com>  Thu, 14 Aug 2003 18:30:27 +0200
+
+php-elisp (1.0.2-1) unstable; urgency=low
+
+  * New upstream version, closes: #124282, #134056, #113530.
+  * Fixed conffile, closes: #132185.
+
+ -- Ola Lundqvist <opal@debian.org>  Sun, 24 Feb 2002 18:50:21 +0100
+
+php-elisp (0.9.6-3) unstable; urgency=low
+
+  * Marked files in /etc as conffiles, closes: #132185.
+  * Removed dh_testversion.
+  * Fixed build-dep-indep in control file.
+
+ -- Ola Lundqvist <opal@debian.org>  Mon,  4 Feb 2002 09:25:37 +0100
+
+php-elisp (0.9.6-2) unstable; urgency=low
+
+  * Fixed build depends.
+  * Fixed to a better long description.
+  * Fixed ordinary depends.
+  * Added suggests of php4 and/or php3.
+
+ -- Ola Lundqvist <opal@debian.org>  Sat, 02 Mar 2001 11:34:45 +0100
+
+php-elisp (0.9.6-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Ola Lundqvist <opal@debian.org>  Mon, 26 Feb 2001 21:33:20 +0100
+
+
