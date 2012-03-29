@@ -464,6 +464,8 @@ This is was done due to the problem reported here:
 
   (modify-syntax-entry ?# "< b" php-mode-syntax-table)
   (modify-syntax-entry ?_ "_" php-mode-syntax-table)
+  (modify-syntax-entry ?' "w" php-mode-syntax-table)
+  (modify-syntax-entry ?" "w" php-mode-syntax-table) ; "
   (modify-syntax-entry ?` "\"" php-mode-syntax-table)
 
   (setq imenu-generic-expression php-imenu-generic-expression)
@@ -1030,14 +1032,14 @@ searching the PHP website."
 (defconst php-font-lock-keywords-1
   (list
    ;; Fontify constants
-   (cons
+   (list
     (concat "[^_$]?\\<\\(" php-constants "\\)\\>[^_]?")
-    '(1 font-lock-constant-face))
+    1 'font-lock-constant-face)
 
    ;; Fontify keywords
-   (cons
+   (list
     (concat "[^_$]?\\<\\(" php-keywords "\\)\\>[^_]?")
-    '(1 font-lock-keyword-face))
+    1 'font-lock-keyword-face)
 
    ;; Fontify keywords and targets, and case default tags.
    (list "\\<\\(break\\|case\\|continue\\)\\>\\s-+\\(-?\\sw+\\)?"
@@ -1058,6 +1060,8 @@ searching the PHP website."
    '("<\\%\\(=\\)?" . font-lock-preprocessor-face)
    '("\\%>" . font-lock-preprocessor-face)
 
+   '("\\(\"\\(\\\\.\\|[^\"\\]\\)*\"\\|'\\(\\\\.\\|[^'\\]\\)*'\\)"
+     . font-lock-string-face)
    )
   "Subdued level highlighting for PHP mode.")
 
