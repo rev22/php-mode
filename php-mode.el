@@ -702,7 +702,7 @@ searching the PHP website."
 
 ;; Define shortcut
 (define-key php-mode-map
-  '[(control .)]
+  (kbd "C-.")
   'php-show-arglist)
 
 ;; Use the Emacs standard indentation binding. This may upset c-mode
