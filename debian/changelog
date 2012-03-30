@@ -1,8 +1,7 @@
 php-elisp (1.5.0-1mb9) unstable; urgency=low
 
   * Updated debian/copyright
-
-Update author list, copyright and version
+  * Update author list, copyright and version
 
  -- Michele Bini <michele.bini@gmail.com>  Thu, 29 Mar 2012 20:50:03 +0200
 
