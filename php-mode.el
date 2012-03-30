@@ -433,7 +433,7 @@ This is was done due to the problem reported here:
   )
 
 ;;;###autoload
-(define-derived-mode php-mode c-mode "PHP"
+(define-derived-mode php-mode fundamental-mode "PHP"
   "Major mode for editing PHP code.\n\n\\{php-mode-map}"
   (c-add-language 'php-mode 'c-mode)
 
@@ -463,7 +463,6 @@ This is was done due to the problem reported here:
           (("_" . "w"))      ; SYNTAX-ALIST
           nil))              ; SYNTAX-BEGIN
 
-  (modify-syntax-entry ?# "< b" php-mode-syntax-table)
   (modify-syntax-entry ?_ "_" php-mode-syntax-table)
   (modify-syntax-entry ?' "w" php-mode-syntax-table)
   (modify-syntax-entry ?" "w" php-mode-syntax-table) ; "
@@ -1034,6 +1033,7 @@ searching the PHP website."
   (list
    '("\\(\"\\(\\\\.\\|[^\"\\]\\)*\"\\|'\\(\\\\.\\|[^'\\]\\)*'\\)"
      . font-lock-string-face)
+   '("#.*" . font-lock-comment-face)
    ;; Fontify constants
    (list
     (concat "[^_$]?\\<\\(" php-constants "\\)\\>[^_]?")
