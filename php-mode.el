@@ -14,7 +14,7 @@
 (defconst php-mode-version-number "1.6.4-mb10"
   "PHP Mode version number.")
 
-(defconst php-mode-modified "2012-03-29"
+(defconst php-mode-modified "2012-03-30"
   "PHP Mode build date.")
 
 ;;; License
@@ -463,11 +463,12 @@ This is was done due to the problem reported here:
           (("_" . "w"))      ; SYNTAX-ALIST
           nil))              ; SYNTAX-BEGIN
 
-  (modify-syntax-entry ?# "< b" php-mode-syntax-table)
-  (modify-syntax-entry ?_ "_" php-mode-syntax-table)
-  (modify-syntax-entry ?' "w" php-mode-syntax-table)
-  (modify-syntax-entry ?" "w" php-mode-syntax-table) ; "
-  (modify-syntax-entry ?` "\"" php-mode-syntax-table)
+  (modify-syntax-entry ?_    "_" php-mode-syntax-table)
+  (modify-syntax-entry ?'    "w" php-mode-syntax-table)
+  (modify-syntax-entry ?\"   "w" php-mode-syntax-table)
+  (modify-syntax-entry ?`    "\"" php-mode-syntax-table)
+
+  (set (make-local-variable 'font-lock-syntactic-keywords) nil)
 
   (setq imenu-generic-expression php-imenu-generic-expression)
 
@@ -1034,6 +1035,7 @@ searching the PHP website."
   (list
    '("\\(\"\\(\\\\.\\|[^\"\\]\\)*\"\\|'\\(\\\\.\\|[^'\\]\\)*'\\)"
      . font-lock-string-face)
+   '("#.*" . font-lock-comment-face)
    ;; Fontify constants
    (list
     (concat "[^_$]?\\<\\(" php-constants "\\)\\>[^_]?")
