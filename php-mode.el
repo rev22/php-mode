@@ -10,10 +10,10 @@
 ;; Created: 1999-05-17
 ;; X-URL:   https://github.com/ejmr/php-mode
 
-(defconst php-mode-version-number "1.6.4"
+(defconst php-mode-version-number "1.6.4-mb10"
   "PHP Mode version number.")
 
-(defconst php-mode-modified "2011-09-25"
+(defconst php-mode-modified "2012-03-31"
   "PHP Mode build date.")
 
 ;;; License
@@ -462,9 +462,12 @@ This is was done due to the problem reported here:
           (("_" . "w"))      ; SYNTAX-ALIST
           nil))              ; SYNTAX-BEGIN
 
-  (modify-syntax-entry ?# "< b" php-mode-syntax-table)
-  (modify-syntax-entry ?_ "_" php-mode-syntax-table)
-  (modify-syntax-entry ?` "\"" php-mode-syntax-table)
+  (modify-syntax-entry ?_    "_" php-mode-syntax-table)
+  (modify-syntax-entry ?'    "w" php-mode-syntax-table)
+  (modify-syntax-entry ?\"   "w" php-mode-syntax-table)
+  (modify-syntax-entry ?`    "\"" php-mode-syntax-table)
+
+  (set (make-local-variable 'font-lock-syntactic-keywords) nil)
 
   (setq imenu-generic-expression php-imenu-generic-expression)
 
@@ -1029,6 +1032,9 @@ searching the PHP website."
 ;; Set up font locking
 (defconst php-font-lock-keywords-1
   (list
+   '("\\(\"\\(\\\\.\\|[^\"\\]\\)*\"\\|'\\(\\\\.\\|[^'\\]\\)*'\\)"
+     . font-lock-string-face)
+   '("#.*" . font-lock-comment-face)
    ;; Fontify constants
    (cons
     (concat "[^_$]?\\<\\(" php-constants "\\)\\>[^_]?")
