@@ -3,6 +3,7 @@
 ;; Copyright (C) 1999, 2000, 2001, 2003, 2004 Turadg Aleahmad
 ;;               2008 Aaron S. Hawley
 ;;               2011 Eric James Michael Ritz
+;; Copyright (c) 2012 Michele Bini <michele.bini@gmail.com>
 
 ;; Maintainer: Eric James Michael Ritz <Ren at lifesnotsimple dot com>
 ;; Original Author: Turadg Aleahmad, 1999-2004
@@ -95,14 +96,14 @@
   :type 'face
   :group 'php)
 
-(defface php-other-word-face
+(defface php-other-words-face
   '(;;(((class color) (background light)) (:foreground "azure" :weight bold))
     ;;(((class color) (background dark))  (:foreground "aquamarine" :weight bold))
     (t (:weight bold :inherit font-lock-string-face)))
   "Face for non-code words in `php-mode' buffers."
   :group 'php)
 
-(defcustom php-other-word-face 'php-other-word-face
+(defcustom php-other-words-face 'php-other-words-face
   "Face for non-code words in `php-mode' buffers.
 
 This face is only used for the maximum fontification level")
