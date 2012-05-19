@@ -5,7 +5,7 @@
 ;;               2011 Eric James Michael Ritz
 ;; Copyright (c) 2012 Michele Bini <michele.bini@gmail.com>
 
-;; Maintainer: Eric James Michael Ritz <Ren at lifesnotsimple dot com>
+;; Maintainer: Eric James Michael Ritz <lobbyjones at gmail dot com>
 ;; Original Author: Turadg Aleahmad, 1999-2004
 ;; Keywords: php languages oop
 ;; Created: 1999-05-17
@@ -182,7 +182,7 @@ can be used to match against definitions for that classlike."
     "^\\s-*function\\s-+\\(\\(?:\\sw\\|\\s_\\)+\\)\\s-*(" 1))
  "Imenu generic expression for PHP Mode. See `imenu-generic-expression'.")
 
-(defcustom php-manual-url "http://www.php.net/manual/en/"
+(defcustom php-manual-url "http://www.php.net/manual-lookup.php?pattern="
   "URL at which to find PHP manual.
 You can replace \"en\" with your ISO language code."
   :type 'string
@@ -676,7 +676,8 @@ documentation exists, and nil otherwise."
                                  php-manual-path)))
     (let ((doc-file (php-function-file-for (current-word))))
       (and (file-exists-p doc-file)
-           (browse-url doc-file)))))
+           (browse-url doc-file)
+           t))))
 
 ;; Define function documentation function
 (defun php-search-documentation ()
@@ -694,11 +695,20 @@ searching the PHP website."
             (php-search-web-documentation))
       (php-search-web-documentation))))
 
+;; Open URL in other window
+(defun browse-url-other-window (url &optional newwin)
+  "Open url in other window"
+  (message "Openning PHP online manual...")
+  (let ((pop-up-windows t))
+    (if (one-window-p)(split-window-sensibly (frame-selected-window)))
+    (other-window 1)
+    (browse-url url newwin)))
+
 ;; Define function for browsing manual
 (defun php-browse-manual ()
   "Bring up manual for PHP."
   (interactive)
-  (browse-url php-manual-url))
+  (browse-url-other-window (concat php-manual-url (current-word))))
 
 ;; Define shortcut
 (define-key php-mode-map
