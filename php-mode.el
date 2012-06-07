@@ -1187,8 +1187,8 @@ searching the PHP website."
     ;; number (also matches word)
     '("\\<[0-9]+" . php-default-face)
 
-    ;; Warn on any words not already fontified
-    '("\\<\\sw+\\>" . font-lock-warning-face)))
+    ;; This maybe user defined constant
+    '("\\<\\sw+\\>" . font-lock-constant-face)))
 
   "Gauchy level highlighting for PHP mode.")
 
