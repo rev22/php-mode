@@ -2,19 +2,19 @@
 
 ;; Copyright (C) 1999, 2000, 2001, 2003, 2004 Turadg Aleahmad
 ;;               2008 Aaron S. Hawley
-;;               2011 Eric James Michael Ritz
+;;               2011, 2012 Eric James Michael Ritz
 ;; Copyright (c) 2012 Michele Bini <michele.bini@gmail.com>
 
-;; Maintainer: Eric James Michael Ritz <Ren at lifesnotsimple dot com>
+;; Maintainer: Eric James Michael Ritz <lobbyjones at gmail dot com>
 ;; Original Author: Turadg Aleahmad, 1999-2004
 ;; Keywords: php languages oop
 ;; Created: 1999-05-17
 ;; X-URL:   https://github.com/ejmr/php-mode
 
-(defconst php-mode-version-number "1.6.4-mb10"
+(defconst php-mode-version-number "1.6.5-mb10"
   "PHP Mode version number.")
 
-(defconst php-mode-modified "2012-03-31"
+(defconst php-mode-modified "2012-05-19"
   "PHP Mode build date.")
 
 ;;; License
@@ -432,6 +432,19 @@ This is was done due to the problem reported here:
   "See `php-c-at-vsemi-p'."
   )
 
+(defun php-lineup-arglist-intro (langelem)
+  (save-excursion
+    (goto-char (cdr langelem))
+    (vector (+ (current-column) c-basic-offset))))
+
+(defun php-lineup-arglist-close (langelem)
+  (save-excursion
+    (goto-char (cdr langelem))
+    (vector (current-column))))
+
+(c-set-offset 'arglist-intro 'php-lineup-arglist-intro)
+(c-set-offset 'arglist-close 'php-lineup-arglist-close)
+
 ;;;###autoload
 (define-derived-mode php-mode c-mode "PHP"
   "Major mode for editing PHP code.\n\n\\{php-mode-map}"
@@ -676,7 +689,8 @@ documentation exists, and nil otherwise."
                                  php-manual-path)))
     (let ((doc-file (php-function-file-for (current-word))))
       (and (file-exists-p doc-file)
-           (browse-url doc-file)))))
+           (browse-url doc-file)
+           t))))
 
 ;; Define function documentation function
 (defun php-search-documentation ()
@@ -1190,8 +1204,8 @@ searching the PHP website."
     ;; number (also matches word)
     '("\\<[0-9]+" . php-default-face)
 
-    ;; Warn on any words not already fontified
-    '("\\<\\sw+\\>" . php-other-words-face)))
+    ;; This maybe user defined constant
+    '("\\<\\sw+\\>" . font-lock-constant-face)))
 
   "Gauchy level highlighting for PHP mode.")
 
@@ -1217,6 +1231,24 @@ searching the PHP website."
      
      (add-to-list 'flymake-err-line-patterns
 		  '("\\(Parse\\|Fatal\\) error: \\(.*?\\) in \\(.*?\\) on line \\([0-9]+\\)" 3 4 nil 2))))
+
+(defun php-send-region (start end)
+  "Send the region between `start' and `end' to PHP for execution.
+The output will appear in the buffer *PHP*."
+  (interactive "r")
+  (let ((php-buffer (get-buffer-create "*PHP*"))
+        (code (buffer-substring start end)))
+    ;; Calling 'php -r' will fail if we send it code that starts with
+    ;; '<?php', which is likely.  So we run the code through this
+    ;; function to check for that prefix and remove it.
+    (flet ((clean-php-code (code)
+                           (if (string-prefix-p "<?php" code t)
+                               (substring code 5)
+                             code)))
+      (call-process "php" nil php-buffer nil "-r" (clean-php-code code)))))
+
+(define-key php-mode-map "\C-c\C-r" 'php-send-region)
+
 
 (provide 'php-mode)
 
