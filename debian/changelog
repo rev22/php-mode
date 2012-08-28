@@ -1,3 +1,9 @@
+php-elisp (1.6.4-1mb11-deb1) unstable; urgency=low
+
+  * Updated debian/copyright
+
+ -- Michele Bini <michele.bini@gmail.com>  Tue, 28 Aug 2012 14:09:04 +0200
+
 php-elisp (1.6.4-1mb11) unstable; urgency=low
 
   * Merge upstream https://github.com/ejmr/php-mode
