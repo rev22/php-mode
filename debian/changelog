@@ -1,4 +1,10 @@
-php-elisp (1.6.4-1mb11-deb1) unstable; urgency=low
+php-elisp (1.6.4-1mb11deb2) unstable; urgency=low
+
+  * Changed debian source format to native.
+
+ -- Michele Bini <michele.bini@gmail.com>  Tue, 28 Aug 2012 14:34:36 +0200
+
+php-elisp (1.6.4-1mb11deb1) unstable; urgency=low
 
   * Updated debian/copyright
 
