@@ -11,10 +11,10 @@
 ;; Created: 1999-05-17
 ;; X-URL:   https://github.com/ejmr/php-mode
 
-(defconst php-mode-version-number "1.6.5-mb10"
+(defconst php-mode-version-number "1.6.6-mb10"
   "PHP Mode version number.")
 
-(defconst php-mode-modified "2012-08-19"
+(defconst php-mode-modified "2012-08-27"
   "PHP Mode build date.")
 
 ;;; License
@@ -480,6 +480,10 @@ This is was done due to the problem reported here:
   (modify-syntax-entry ?'    "w" php-mode-syntax-table)
   (modify-syntax-entry ?\"   "w" php-mode-syntax-table)
   (modify-syntax-entry ?`    "\"" php-mode-syntax-table)
+
+  (set (make-local-variable 'font-lock-syntactic-keywords)
+       '(("\\(\"\\)\\(\\\\.\\|[^\"\n\\]\\)*\\(\"\\)" (1 "\"") (3 "\""))
+	 ("\\(\'\\)\\(\\\\.\\|[^\'\n\\]\\)*\\(\'\\)" (1 "\"") (3 "\""))))
 
   (set (make-local-variable 'font-lock-syntactic-keywords) nil)
 
@@ -1047,8 +1051,6 @@ searching the PHP website."
 ;; Set up font locking
 (defconst php-font-lock-keywords-1
   (list
-   '("\\(\"\\(\\\\.\\|[^\"\\]\\)*\"\\|'\\(\\\\.\\|[^'\\]\\)*'\\)"
-     . font-lock-string-face)
    '("#.*" . font-lock-comment-face)
    ;; Fontify constants
    (cons
