@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 1999, 2000, 2001, 2003, 2004 Turadg Aleahmad
 ;;               2008 Aaron S. Hawley
-;;               2011 Eric James Michael Ritz
+;;               2011, 2012 Eric James Michael Ritz
 ;; Copyright (c) 2012 Michele Bini <michele.bini@gmail.com>
 
 ;; Maintainer: Eric James Michael Ritz <lobbyjones at gmail dot com>
@@ -11,10 +11,10 @@
 ;; Created: 1999-05-17
 ;; X-URL:   https://github.com/ejmr/php-mode
 
-(defconst php-mode-version-number "1.6.4-mb10"
+(defconst php-mode-version-number "1.6.6-mb10"
   "PHP Mode version number.")
 
-(defconst php-mode-modified "2012-03-31"
+(defconst php-mode-modified "2012-08-27"
   "PHP Mode build date.")
 
 ;;; License
@@ -432,6 +432,19 @@ This is was done due to the problem reported here:
   "See `php-c-at-vsemi-p'."
   )
 
+(defun php-lineup-arglist-intro (langelem)
+  (save-excursion
+    (goto-char (cdr langelem))
+    (vector (+ (current-column) c-basic-offset))))
+
+(defun php-lineup-arglist-close (langelem)
+  (save-excursion
+    (goto-char (cdr langelem))
+    (vector (current-column))))
+
+(c-set-offset 'arglist-intro 'php-lineup-arglist-intro)
+(c-set-offset 'arglist-close 'php-lineup-arglist-close)
+
 ;;;###autoload
 (define-derived-mode php-mode c-mode "PHP"
   "Major mode for editing PHP code.\n\n\\{php-mode-map}"
@@ -467,6 +480,10 @@ This is was done due to the problem reported here:
   (modify-syntax-entry ?'    "w" php-mode-syntax-table)
   (modify-syntax-entry ?\"   "w" php-mode-syntax-table)
   (modify-syntax-entry ?`    "\"" php-mode-syntax-table)
+
+  (set (make-local-variable 'font-lock-syntactic-keywords)
+       '(("\\(\"\\)\\(\\\\.\\|[^\"\n\\]\\)*\\(\"\\)" (1 "\"") (3 "\""))
+	 ("\\(\'\\)\\(\\\\.\\|[^\'\n\\]\\)*\\(\'\\)" (1 "\"") (3 "\""))))
 
   (set (make-local-variable 'font-lock-syntactic-keywords) nil)
 
@@ -739,8 +756,8 @@ searching the PHP website."
   (eval-when-compile
     (regexp-opt
      '(;; core constants
-       "__LINE__" "__FILE__"
-       "__FUNCTION__" "__CLASS__" "__METHOD__"
+       "__LINE__" "__FILE__" "__DIR__"
+       "__FUNCTION__" "__CLASS__" "__TRAIT__" "__METHOD__"
        "__NAMESPACE__"
        "__COMPILER_HALT_OFFSET__"
        "PHP_OS" "PHP_VERSION"
@@ -1013,7 +1030,7 @@ searching the PHP website."
     (regexp-opt
      ;; "class", "new" and "extends" get special treatment
      ;; "case" gets special treatment elsewhere
-     '("and" "break" "continue" "declare" "default" "do" "echo" "else" "elseif"
+     '("and" "break" "continue" "declare" "default" "die" "do" "echo" "else" "elseif"
        "endfor" "endforeach" "endif" "endswitch" "endwhile" "exit"
        "extends" "for" "foreach" "global" "if" "include" "include_once"
        "or" "require" "require_once" "return" "return new" "static" "switch"
@@ -1043,8 +1060,6 @@ searching the PHP website."
 ;; Set up font locking
 (defconst php-font-lock-keywords-1
   (list
-   '("\\(\"\\(\\\\.\\|[^\"\\]\\)*\"\\|'\\(\\\\.\\|[^'\\]\\)*'\\)"
-     . font-lock-string-face)
    '("#.*" . font-lock-comment-face)
    ;; Fontify constants
    (cons
@@ -1099,7 +1114,7 @@ searching the PHP website."
       (1 font-lock-type-face nil t))
 
     ;; namespace imports
-    '("\\<\\(use\\)\\s-+\\(\\(?:\\sw\\|\\\\\\)+\\)"
+    '("\\<\\(use\\)\\s-+\\(\\(?:\\sw\\|\\(?:,\s-?\\)\\|\\\\\\)+\\)"
       (1 font-lock-keyword-face)
       (2 font-lock-type-face))
 
@@ -1200,8 +1215,8 @@ searching the PHP website."
     ;; number (also matches word)
     '("\\<[0-9]+" . php-default-face)
 
-    ;; Warn on any words not already fontified
-    '("\\<\\sw+\\>" . php-other-words-face)))
+    ;; This maybe user defined constant
+    '("\\<\\sw+\\>" . font-lock-constant-face)))
 
   "Gauchy level highlighting for PHP mode.")
 
@@ -1227,6 +1242,24 @@ searching the PHP website."
      
      (add-to-list 'flymake-err-line-patterns
 		  '("\\(Parse\\|Fatal\\) error: \\(.*?\\) in \\(.*?\\) on line \\([0-9]+\\)" 3 4 nil 2))))
+
+(defun php-send-region (start end)
+  "Send the region between `start' and `end' to PHP for execution.
+The output will appear in the buffer *PHP*."
+  (interactive "r")
+  (let ((php-buffer (get-buffer-create "*PHP*"))
+        (code (buffer-substring start end)))
+    ;; Calling 'php -r' will fail if we send it code that starts with
+    ;; '<?php', which is likely.  So we run the code through this
+    ;; function to check for that prefix and remove it.
+    (flet ((clean-php-code (code)
+                           (if (string-prefix-p "<?php" code t)
+                               (substring code 5)
+                             code)))
+      (call-process "php" nil php-buffer nil "-r" (clean-php-code code)))))
+
+(define-key php-mode-map "\C-c\C-r" 'php-send-region)
+
 
 (provide 'php-mode)
 
