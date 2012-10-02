@@ -64,18 +64,13 @@
 
 ;;; Code:
 
-(require 'add-log)
-(require 'speedbar)
 (require 'font-lock)
 (require 'cc-mode)
 (require 'cc-langs)
 (require 'custom)
-(require 'etags)
 (eval-when-compile
-  (require 'regexp-opt)
   (defvar c-vsemi-status-unknown-p)
-  (defvar syntax-propertize-via-font-lock))
-(require 'flymake)
+  (require 'regexp-opt))
 
 ;; Local variables
 ;;;###autoload
@@ -117,7 +112,7 @@ Ignores php-file patterns option; fixed to expression \"\\.\\(inc\\|php[s345]?\\
   :type 'boolean
   :set (lambda (sym val)
          (set-default sym val)
-         (if (and val (boundp 'speedbar))
+         (if (and val (boundp 'speedbar-add-supported-extension))
              (speedbar-add-supported-extension
               "\\.\\(inc\\|php[s345]?\\|phtml\\)")))
   :group 'php)
@@ -486,15 +481,22 @@ This is was done due to the problem reported here:
           nil))              ; SYNTAX-BEGIN
 
   (modify-syntax-entry ?_    "_" php-mode-syntax-table)
-  (modify-syntax-entry ?`    "\"" php-mode-syntax-table)
-  (modify-syntax-entry ?\"   "\"" php-mode-syntax-table)
+  (let ((sk (boundp 'font-lock-syntactic-keywords))
+	(sf (boundp 'syntax-propertize-via-font-lock)))
+    (unless (or sk sf)
+      (modify-syntax-entry ?`    "\"" php-mode-syntax-table)
+      (modify-syntax-entry ?\"   "\"" php-mode-syntax-table))
 
-  (set (make-local-variable 'syntax-propertize-via-font-lock)
-       '(("\\(\"\\)\\(\\\\.\\|[^\"\n\\]\\)*\\(\"\\)" (1 "\"") (3 "\""))
-	 ("\\(\'\\)\\(\\\\.\\|[^\'\n\\]\\)*\\(\'\\)" (1 "\"") (3 "\""))))
+    (when sk
+      (set (make-local-variable 'font-lock-syntactic-keywords) nil))
 
-  (set (make-local-variable 'font-lock-syntactic-keywords) nil)
-
+    (when (or sk sf)
+      (set (make-local-variable
+	    (if sf 'syntax-propertize-via-font-lock
+	      'font-lock-syntactic-keywords))
+	   '(("\\(\"\\)\\(\\\\.\\|[^\"\n\\]\\)*\\(\"\\)" (1 "\"") (3 "\""))
+	     ("\\(\'\\)\\(\\\\.\\|[^\'\n\\]\\)*\\(\'\\)" (1 "\"") (3 "\""))))))
+  
   (setq imenu-generic-expression php-imenu-generic-expression)
 
   ;; PHP vars are case-sensitive
