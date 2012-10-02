@@ -14,7 +14,7 @@
 (defconst php-mode-version-number "1.6.4-mbdev1"
   "PHP Mode version number.")
 
-(defconst php-mode-modified "2012-09-06"
+(defconst php-mode-modified "2012-09-21"
   "PHP Mode build date.")
 
 ;;; License
@@ -72,7 +72,10 @@
 (require 'custom)
 (require 'etags)
 (eval-when-compile
-  (require 'regexp-opt))
+  (require 'regexp-opt)
+  (defvar c-vsemi-status-unknown-p)
+  (defvar syntax-propertize-via-font-lock))
+(require 'flymake)
 
 ;; Local variables
 ;;;###autoload
@@ -455,7 +458,11 @@ This is was done due to the problem reported here:
   (set (make-local-variable 'c-opt-cpp-start) php-tags-key)
   (set (make-local-variable 'c-opt-cpp-prefix) php-tags-key)
 
+  ;; These settings ensure that chained method calls line up correctly
+  ;; over multiple lines.
   (c-set-offset 'topmost-intro-cont 'c-lineup-cascaded-calls)
+  (c-set-offset 'statement-cont 'c-lineup-cascaded-calls)
+  (c-set-offset 'brace-list-entry 'c-lineup-cascaded-calls)
 
   (set (make-local-variable 'c-block-stmt-1-key) php-block-stmt-1-key)
   (set (make-local-variable 'c-block-stmt-2-key) php-block-stmt-2-key)
@@ -479,11 +486,10 @@ This is was done due to the problem reported here:
           nil))              ; SYNTAX-BEGIN
 
   (modify-syntax-entry ?_    "_" php-mode-syntax-table)
-  (modify-syntax-entry ?'    "w" php-mode-syntax-table)
-  (modify-syntax-entry ?\"   "w" php-mode-syntax-table)
   (modify-syntax-entry ?`    "\"" php-mode-syntax-table)
+  (modify-syntax-entry ?\"   "\"" php-mode-syntax-table)
 
-  (set (make-local-variable 'font-lock-syntactic-keywords)
+  (set (make-local-variable 'syntax-propertize-via-font-lock)
        '(("\\(\"\\)\\(\\\\.\\|[^\"\n\\]\\)*\\(\"\\)" (1 "\"") (3 "\""))
 	 ("\\(\'\\)\\(\\\\.\\|[^\'\n\\]\\)*\\(\'\\)" (1 "\"") (3 "\""))))
 
