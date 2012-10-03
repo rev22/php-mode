@@ -14,7 +14,7 @@
 (defconst php-mode-version-number "1.6.4-1mb11"
   "PHP Mode version number.")
 
-(defconst php-mode-modified "2012-08-27"
+(defconst php-mode-modified "2012-09-21"
   "PHP Mode build date.")
 
 ;;; License
@@ -64,14 +64,12 @@
 
 ;;; Code:
 
-(require 'add-log)
-(require 'speedbar)
 (require 'font-lock)
 (require 'cc-mode)
 (require 'cc-langs)
 (require 'custom)
-(require 'etags)
 (eval-when-compile
+  (defvar c-vsemi-status-unknown-p)
   (require 'regexp-opt))
 
 ;; Local variables
@@ -114,7 +112,7 @@ Ignores php-file patterns option; fixed to expression \"\\.\\(inc\\|php[s345]?\\
   :type 'boolean
   :set (lambda (sym val)
          (set-default sym val)
-         (if (and val (boundp 'speedbar))
+         (if (and val (boundp 'speedbar-add-supported-extension))
              (speedbar-add-supported-extension
               "\\.\\(inc\\|php[s345]?\\|phtml\\)")))
   :group 'php)
@@ -455,6 +453,12 @@ This is was done due to the problem reported here:
   (set (make-local-variable 'c-opt-cpp-start) php-tags-key)
   (set (make-local-variable 'c-opt-cpp-prefix) php-tags-key)
 
+  ;; These settings ensure that chained method calls line up correctly
+  ;; over multiple lines.
+  (c-set-offset 'topmost-intro-cont 'c-lineup-cascaded-calls)
+  (c-set-offset 'statement-cont 'c-lineup-cascaded-calls)
+  (c-set-offset 'brace-list-entry 'c-lineup-cascaded-calls)
+
   (set (make-local-variable 'c-block-stmt-1-key) php-block-stmt-1-key)
   (set (make-local-variable 'c-block-stmt-2-key) php-block-stmt-2-key)
 
@@ -476,17 +480,32 @@ This is was done due to the problem reported here:
           (("_" . "w"))      ; SYNTAX-ALIST
           nil))              ; SYNTAX-BEGIN
 
-  (modify-syntax-entry ?_    "_" php-mode-syntax-table)
-  (modify-syntax-entry ?'    "w" php-mode-syntax-table)
-  (modify-syntax-entry ?\"   "w" php-mode-syntax-table)
-  (modify-syntax-entry ?`    "\"" php-mode-syntax-table)
+  (modify-syntax-entry ?_   "_" php-mode-syntax-table)
+  (modify-syntax-entry ?#   "< c"  php-mode-syntax-table)
+  (modify-syntax-entry ?\n  "> c"  php-mode-syntax-table)
+  (let ((sk (boundp 'font-lock-syntactic-keywords))
+	(sf (boundp 'syntax-propertize-via-font-lock)))
+    (if (or sk sf)
+	(progn
+	  (modify-syntax-entry ?`   "w"  php-mode-syntax-table)
+	  (modify-syntax-entry ?'   "w"  php-mode-syntax-table)
+	  (modify-syntax-entry ?\"  "w"  php-mode-syntax-table))
+      (modify-syntax-entry ?`   "\""  php-mode-syntax-table)
+      (modify-syntax-entry ?'   "\""  php-mode-syntax-table)
+      (modify-syntax-entry ?\"  "\""  php-mode-syntax-table))
 
-  (set (make-local-variable 'font-lock-syntactic-keywords)
-       '(("\\(\"\\)\\(\\\\.\\|[^\"\n\\]\\)*\\(\"\\)" (1 "\"") (3 "\""))
-	 ("\\(\'\\)\\(\\\\.\\|[^\'\n\\]\\)*\\(\'\\)" (1 "\"") (3 "\""))))
+    (when sk
+      (set (make-local-variable 'font-lock-syntactic-keywords) nil))
 
-  (set (make-local-variable 'font-lock-syntactic-keywords) nil)
-
+    (when (or sk sf)
+      (set (make-local-variable
+	    (if sf 'syntax-propertize-via-font-lock
+	      'font-lock-syntactic-keywords))
+	   '(("\\(\"\\)\\(\\\\.\\|[^\"\n\\]\\)*\\(\"\\)" (1 "\"") (3 "\""))
+	     ("\\(\'\\)\\(\\\\.\\|[^\'\n\\]\\)*\\(\'\\)" (1 "\"") (3 "\""))
+	     ("\\(\`\\)\\(\\\\.\\|[^\'\n\\]\\)*\\(\`\\)" (1 "\"") (3 "\""))
+	     ))))
+  
   (setq imenu-generic-expression php-imenu-generic-expression)
 
   ;; PHP vars are case-sensitive
@@ -1060,7 +1079,6 @@ searching the PHP website."
 ;; Set up font locking
 (defconst php-font-lock-keywords-1
   (list
-   '("#.*" . font-lock-comment-face)
    ;; Fontify constants
    (list
     (concat "[^_$]?\\<\\(" php-constants "\\)\\>[^_]?")
