@@ -11,7 +11,7 @@
 ;; Created: 1999-05-17
 ;; X-URL:   https://github.com/ejmr/php-mode
 
-(defconst php-mode-version-number "1.6.6-1mb12"
+(defconst php-mode-version-number "1.6.6-1mb13deb5"
   "PHP Mode version number.")
 
 (defconst php-mode-modified "2012-10-03"
@@ -731,20 +731,12 @@ searching the PHP website."
             (php-search-web-documentation))
       (php-search-web-documentation))))
 
-;; Open URL in other window
-(defun browse-url-other-window (url &optional newwin)
-  "Open url in other window"
-  (message "Openning PHP online manual...")
-  (let ((pop-up-windows t))
-    (if (one-window-p)(split-window-sensibly (frame-selected-window)))
-    (other-window 1)
-    (browse-url url newwin)))
-
 ;; Define function for browsing manual
 (defun php-browse-manual ()
   "Bring up manual for PHP."
   (interactive)
-  (browse-url-other-window (concat php-manual-url (current-word))))
+  (require 'browse-url)
+  (browse-url (concat php-manual-url (current-word))))
 
 ;; Define shortcut
 (define-key php-mode-map
