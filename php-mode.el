@@ -3,7 +3,7 @@
 ;; Copyright (c) 1999, 2000, 2001, 2003, 2004 Turadg Aleahmad
 ;; Copyright (c) 2008 Aaron S. Hawley
 ;; Copyright (c) 2011, 2012 Eric James Michael Ritz
-;; Copyright (c) 2012 Michele Bini
+;; Copyright (c) 2012 Michele Bini <michele.bini@gmail.com>
 
 ;; Maintainer: Eric James Michael Ritz <lobbyjones at gmail dot com>
 ;; Original Author: Turadg Aleahmad, 1999-2004
@@ -11,7 +11,7 @@
 ;; Created: 1999-05-17
 ;; X-URL:   https://github.com/ejmr/php-mode
 
-(defconst php-mode-version-number "1.6.6-1mb13deb5"
+(defconst php-mode-version-number "1.6.6-1mb14deb5"
   "PHP Mode version number.")
 
 (defconst php-mode-modified "2012-10-03"
@@ -481,8 +481,11 @@ This is was done due to the problem reported here:
           nil))              ; SYNTAX-BEGIN
 
   (modify-syntax-entry ?_   "_" php-mode-syntax-table)
-  (modify-syntax-entry ?#   "< c"  php-mode-syntax-table)
-  (modify-syntax-entry ?\n  "> c"  php-mode-syntax-table)
+
+  ;; the 'b' modifier here should be the same used by cc-mode for '//' comments
+  (modify-syntax-entry ?#   "< b"  php-mode-syntax-table)
+  (modify-syntax-entry ?\n  "> b"  php-mode-syntax-table)
+
   (let ((sk (boundp 'font-lock-syntactic-keywords))
 	(sf (boundp 'syntax-propertize-via-font-lock)))
     (if (or sk sf)
