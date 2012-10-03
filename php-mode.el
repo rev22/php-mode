@@ -3,7 +3,7 @@
 ;; Copyright (c) 1999, 2000, 2001, 2003, 2004 Turadg Aleahmad
 ;; Copyright (c) 2008 Aaron S. Hawley
 ;; Copyright (c) 2011, 2012 Eric James Michael Ritz
-;; Copyright (c) 2012 Michele Bini
+;; Copyright (c) 2012 Michele Bini <michele.bini@gmail.com>
 
 ;; Maintainer: Eric James Michael Ritz <lobbyjones at gmail dot com>
 ;; Original Author: Turadg Aleahmad, 1999-2004
