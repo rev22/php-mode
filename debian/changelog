@@ -1,3 +1,10 @@
+php-elisp (1.6.4-1mb12deb3) unstable; urgency=low
+
+  * Merged ejmr's github branch
+  * Fixes for the test cases.
+
+ -- Michele Bini <michele.bini@gmail.com>  Wed, 03 Oct 2012 03:35:07 +0200
+
 php-elisp (1.6.4-1mb11deb2) unstable; urgency=low
 
   * Changed debian source format to native.
