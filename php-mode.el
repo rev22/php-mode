@@ -490,9 +490,9 @@ This is was done due to the problem reported here:
 	(sf (boundp 'syntax-propertize-via-font-lock)))
     (if (or sk sf)
 	(progn
-	  (modify-syntax-entry ?`   "w"  php-mode-syntax-table)
-	  (modify-syntax-entry ?'   "w"  php-mode-syntax-table)
-	  (modify-syntax-entry ?\"  "w"  php-mode-syntax-table))
+	  (modify-syntax-entry ?`   "_"  php-mode-syntax-table)
+	  (modify-syntax-entry ?'   "_"  php-mode-syntax-table)
+	  (modify-syntax-entry ?\"  "_"  php-mode-syntax-table))
       (modify-syntax-entry ?`   "\""  php-mode-syntax-table)
       (modify-syntax-entry ?'   "\""  php-mode-syntax-table)
       (modify-syntax-entry ?\"  "\""  php-mode-syntax-table))
