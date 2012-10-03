@@ -11,10 +11,10 @@
 ;; Created: 1999-05-17
 ;; X-URL:   https://github.com/ejmr/php-mode
 
-(defconst php-mode-version-number "1.6.4-1mb12"
+(defconst php-mode-version-number "1.6.6-1mb12"
   "PHP Mode version number.")
 
-(defconst php-mode-modified "2012-09-21"
+(defconst php-mode-modified "2012-10-03"
   "PHP Mode build date.")
 
 ;;; License
@@ -311,7 +311,7 @@ See `php-beginning-of-defun'."
              (base-msg
               (concat
                "Indentation fails badly with mixed HTML/PHP in the HTML part in
-plain `php-mode'.  To get indentation to work you must use an
+pla�n `php-mode'.  To get indentation to work you must use an
 Emacs library that supports 'multiple major modes' in a buffer.
 Parts of the buffer will then be in `php-mode' and parts in for
 example `html-mode'.  Known such libraries are:\n\t"
