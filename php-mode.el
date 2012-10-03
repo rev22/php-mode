@@ -480,12 +480,19 @@ This is was done due to the problem reported here:
           (("_" . "w"))      ; SYNTAX-ALIST
           nil))              ; SYNTAX-BEGIN
 
-  (modify-syntax-entry ?_    "_" php-mode-syntax-table)
+  (modify-syntax-entry ?_   "_" php-mode-syntax-table)
+  (modify-syntax-entry ?#   "< c"  php-mode-syntax-table)
+  (modify-syntax-entry ?\n  "> c"  php-mode-syntax-table)
   (let ((sk (boundp 'font-lock-syntactic-keywords))
 	(sf (boundp 'syntax-propertize-via-font-lock)))
-    (unless (or sk sf)
-      (modify-syntax-entry ?`    "\"" php-mode-syntax-table)
-      (modify-syntax-entry ?\"   "\"" php-mode-syntax-table))
+    (if (or sk sf)
+	(progn
+	  (modify-syntax-entry ?`   "w"  php-mode-syntax-table)
+	  (modify-syntax-entry ?'   "w"  php-mode-syntax-table)
+	  (modify-syntax-entry ?\"  "w"  php-mode-syntax-table))
+      (modify-syntax-entry ?`   "\""  php-mode-syntax-table)
+      (modify-syntax-entry ?'   "\""  php-mode-syntax-table)
+      (modify-syntax-entry ?\"  "\""  php-mode-syntax-table))
 
     (when sk
       (set (make-local-variable 'font-lock-syntactic-keywords) nil))
@@ -495,7 +502,9 @@ This is was done due to the problem reported here:
 	    (if sf 'syntax-propertize-via-font-lock
 	      'font-lock-syntactic-keywords))
 	   '(("\\(\"\\)\\(\\\\.\\|[^\"\n\\]\\)*\\(\"\\)" (1 "\"") (3 "\""))
-	     ("\\(\'\\)\\(\\\\.\\|[^\'\n\\]\\)*\\(\'\\)" (1 "\"") (3 "\""))))))
+	     ("\\(\'\\)\\(\\\\.\\|[^\'\n\\]\\)*\\(\'\\)" (1 "\"") (3 "\""))
+	     ("\\(\`\\)\\(\\\\.\\|[^\'\n\\]\\)*\\(\`\\)" (1 "\"") (3 "\""))
+	     ))))
   
   (setq imenu-generic-expression php-imenu-generic-expression)
 
@@ -1070,7 +1079,6 @@ searching the PHP website."
 ;; Set up font locking
 (defconst php-font-lock-keywords-1
   (list
-   '("#.*" . font-lock-comment-face)
    ;; Fontify constants
    (cons
     (concat "[^_$]?\\<\\(" php-constants "\\)\\>[^_]?")
