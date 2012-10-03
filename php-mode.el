@@ -481,8 +481,11 @@ This is was done due to the problem reported here:
           nil))              ; SYNTAX-BEGIN
 
   (modify-syntax-entry ?_   "_" php-mode-syntax-table)
-  (modify-syntax-entry ?#   "< c"  php-mode-syntax-table)
-  (modify-syntax-entry ?\n  "> c"  php-mode-syntax-table)
+
+  ;; the 'b' modifier here should be the same used by cc-mode for '//' comments
+  (modify-syntax-entry ?#   "< b"  php-mode-syntax-table)
+  (modify-syntax-entry ?\n  "> b"  php-mode-syntax-table)
+
   (let ((sk (boundp 'font-lock-syntactic-keywords))
 	(sf (boundp 'syntax-propertize-via-font-lock)))
     (if (or sk sf)
