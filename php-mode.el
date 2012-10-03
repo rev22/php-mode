@@ -11,7 +11,7 @@
 ;; Created: 1999-05-17
 ;; X-URL:   https://github.com/ejmr/php-mode
 
-(defconst php-mode-version-number "1.6.4-mbdev2"
+(defconst php-mode-version-number "1.6.6-mbdev2"
   "PHP Mode version number.")
 
 (defconst php-mode-modified "2012-09-21"
