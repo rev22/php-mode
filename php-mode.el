@@ -11,7 +11,7 @@
 ;; Created: 1999-05-17
 ;; X-URL:   https://github.com/ejmr/php-mode
 
-(defconst php-mode-version-number "1.6.6-1mb14deb5"
+(defconst php-mode-version-number "1.6.6-1mb15deb7"
   "PHP Mode version number.")
 
 (defconst php-mode-modified "2012-10-03"
@@ -490,9 +490,9 @@ This is was done due to the problem reported here:
 	(sf (boundp 'syntax-propertize-via-font-lock)))
     (if (or sk sf)
 	(progn
-	  (modify-syntax-entry ?`   "w"  php-mode-syntax-table)
-	  (modify-syntax-entry ?'   "w"  php-mode-syntax-table)
-	  (modify-syntax-entry ?\"  "w"  php-mode-syntax-table))
+	  (modify-syntax-entry ?`   "_"  php-mode-syntax-table)
+	  (modify-syntax-entry ?'   "_"  php-mode-syntax-table)
+	  (modify-syntax-entry ?\"  "_"  php-mode-syntax-table))
       (modify-syntax-entry ?`   "\""  php-mode-syntax-table)
       (modify-syntax-entry ?'   "\""  php-mode-syntax-table)
       (modify-syntax-entry ?\"  "\""  php-mode-syntax-table))
@@ -504,7 +504,8 @@ This is was done due to the problem reported here:
       (set (make-local-variable
 	    (if sf 'syntax-propertize-via-font-lock
 	      'font-lock-syntactic-keywords))
-	   '(("\\(\"\\)\\(\\\\.\\|[^\"\n\\]\\)*\\(\"\\)" (1 "\"") (3 "\""))
+	   '(("\\(\\\\\\)" (1 "_"))
+	     ("\\(\"\\)\\(\\\\.\\|[^\"\n\\]\\)*\\(\"\\)" (1 "\"") (3 "\""))
 	     ("\\(\'\\)\\(\\\\.\\|[^\'\n\\]\\)*\\(\'\\)" (1 "\"") (3 "\""))
 	     ("\\(\`\\)\\(\\\\.\\|[^\'\n\\]\\)*\\(\`\\)" (1 "\"") (3 "\""))
 	     ))))
