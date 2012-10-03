@@ -1259,8 +1259,6 @@ searching the PHP website."
      
      (add-to-list 'flymake-err-line-patterns
 		  '("\\(Parse\\|Fatal\\) error: \\(.*?\\) in \\(.*?\\) on line \\([0-9]+\\)" 3 4 nil 2))))
-<<<<<<< HEAD
-=======
 
 (defun php-send-region (start end)
   "Send the region between `start' and `end' to PHP for execution.
@@ -1279,7 +1277,6 @@ The output will appear in the buffer *PHP*."
 
 (define-key php-mode-map "\C-c\C-r" 'php-send-region)
 
->>>>>>> master
 
 (provide 'php-mode)
 
