@@ -1,3 +1,9 @@
+php-elisp (1.6.6-1mb16deb8) unstable; urgency=low
+
+  * Fix for a new test case involving multi-line strings.
+
+ -- Michele Bini <michele.bini@gmail.com>  Thu, 04 Oct 2012 03:00:31 +0200
+
 php-elisp (1.6.6-1mb15deb7) unstable; urgency=low
 
   * Fix for multiline string containing an escaped single quote.

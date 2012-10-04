@@ -11,7 +11,7 @@
 ;; Created: 1999-05-17
 ;; X-URL:   https://github.com/ejmr/php-mode
 
-(defconst php-mode-version-number "1.6.6-1mb15deb7"
+(defconst php-mode-version-number "1.6.6-1mb16deb8"
   "PHP Mode version number.")
 
 (defconst php-mode-modified "2012-10-03"
@@ -505,9 +505,9 @@ This is was done due to the problem reported here:
 	    (if sf 'syntax-propertize-via-font-lock
 	      'font-lock-syntactic-keywords))
 	   '(("\\(\\\\\\)" (1 "_"))
-	     ("\\(\"\\)\\(\\\\.\\|[^\"\n\\]\\)*\\(\"\\)" (1 "\"") (3 "\""))
-	     ("\\(\'\\)\\(\\\\.\\|[^\'\n\\]\\)*\\(\'\\)" (1 "\"") (3 "\""))
-	     ("\\(\`\\)\\(\\\\.\\|[^\'\n\\]\\)*\\(\`\\)" (1 "\"") (3 "\""))
+	     ("\\(\"\\)\\(\\\\.\\|[^\"\n\\]\\)*\\(\"\\)" (1 "|") (3 "|"))
+	     ("\\(\'\\)\\(\\\\.\\|[^\'\n\\]\\)*\\(\'\\)" (1 "|") (3 "|"))
+	     ("\\(\`\\)\\(\\\\.\\|[^\'\n\\]\\)*\\(\`\\)" (1 "|") (3 "|"))
 	     ))))
   
   (setq imenu-generic-expression php-imenu-generic-expression)
