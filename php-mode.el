@@ -448,6 +448,9 @@ This is was done due to the problem reported here:
   "Major mode for editing PHP code.\n\n\\{php-mode-map}"
   (c-add-language 'php-mode 'c-mode)
 
+  (set (make-local-variable 'comment-start) "# ")
+  (set (make-local-variable 'comment-end) "")
+
   ;; PHP doesn't have C-style macros.
   ;; HACK: Overwrite this syntax with rules to match <?php and others.
   (set (make-local-variable 'c-opt-cpp-start) php-tags-key)
